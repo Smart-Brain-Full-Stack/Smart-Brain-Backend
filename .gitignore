@@ -1,0 +1,10 @@
+# Ignore environment files for backend
+.env
+
+#backend\.gitignore
+# Node modules for backend
+node_modules/
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
