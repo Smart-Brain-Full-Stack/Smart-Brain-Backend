@@ -1,12 +1,24 @@
+require('@dotenvx/dotenvx').config();
 const express = require('express');
 const bodyParse = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-require('@dotenvx/dotenvx').config()
-
 const app = express();
 const port = process.env.PORT;
 const pat = process.env.PAT;
+const password = process.env.password;
+
+const knex = require('knex')({
+    client: 'pg',
+    connection: {
+      host: '127.0.0.1',
+      port: 5432,
+      user: 'saizayarhein',
+      password: password,
+      database: 'Smart-Brain',
+    },
+  });
+
 
 app.use(bodyParse.json());
 app.use(cors());
@@ -50,9 +62,9 @@ const returnClarifaiRequestOptions = function (img) {
     };
   
     return requestOptions;
-  };
+};
 
-  app.post("/detect-face", async (req, res) => {
+app.post("/detect-face", async (req, res) => {
     try {
         const  {imageUrl} = req.body;
 
@@ -69,7 +81,7 @@ const returnClarifaiRequestOptions = function (img) {
     } catch (error) {
         res.status(500).json({ error: "Internal server error" });
     }
-  })
+})
   
 
 
@@ -109,8 +121,7 @@ app.post('/signin' ,(req,res)=> {
     const {email , password} = req.body;
     
     const user = database.users.find(user => user.email === email && user.password === password);
-    console.log(user);
-
+    
     if(user){
         res.json(user);
     }else{
@@ -118,32 +129,36 @@ app.post('/signin' ,(req,res)=> {
     }
 })
 
-app.post('/register' , (req,res)=>{
-    const {name,email,password} = req.body;
-    if(name && email && password){
-        database.users.push({
-            id: '125',
-            name: name,
+app.post('/register', async (req, res) => {
+    const { name, email, password } = req.body;
+    try {
+        // Insert user data
+        const user = await knex('users').returning('*').insert({
             email: email,
-            password: password,
-            entries : 0,
+            name: name,
             joined: new Date()
-        })
-        res.json(database.users[database.users.length-1]);
-    }else{
-        res.status(400).json('error registering acc');
+        });
+        // Send response
+        res.json(user[0]); // response contains inserted data, or just a success message
+    } catch (error) {
+        console.error(error);
+        res.status(500).json('Error inserting user');
     }
-})
+});
 
-app.get('/profile/:id', (req,res) => {
+//for future feature (not likely to happen tho lol)
+app.get('/profile/:id', async(req,res) => {
     const {id} = req.params;
 
-    const user = database.users.find(user => user.id === id);
- 
-    if(user){
-        res.json(user);
-    }else{
-        res.status(404).json('not found');
+    try {
+        const user = await knex.select('*').from('users').where({id});
+        if(user.length){
+            res.json(user[0]);
+        }else{
+            res.status(400).json('not found!!!');
+        }
+    } catch (error) {
+        res.status(400).json('error getting user');
     }
 })
 
@@ -161,7 +176,7 @@ app.put('/image' , (req,res)=>{
 })
 
 app.listen(port , ()=>{
-    console.log("app is running on port 3000");
+    console.log("app is running on port " + port);
 })
 
 
