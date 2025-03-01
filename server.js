@@ -1,6 +1,5 @@
 require('@dotenvx/dotenvx').config();
 const express = require('express');
-const bodyParse = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const app = express();
@@ -26,7 +25,7 @@ const knex = require('knex')({
   });
 
 
-app.use(bodyParse.json());
+app.use(express.json());
 app.use(cors());
   
 
@@ -57,9 +56,11 @@ app.put('/image' , (req,res)=>{
     image.handleImage(req,res,knex);
 })
 
-app.listen(port , ()=>{
+app.listen(port || 3000 , ()=>{
     console.log("app is running on port " + port);
 })
+
+
 
 /*
 /--> res = this is working

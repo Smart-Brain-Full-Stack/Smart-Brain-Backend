@@ -1,6 +1,11 @@
 const handleRegister = async(req,res,knex,bcrypt) => {
     const { name, email, password } = req.body;
 
+    if(!name || !email || !password){
+        res.json("Could not reigster !!!");
+        return;
+    }
+
     //change password into hashcode
     const hash = bcrypt.hashSync(password,14);
 
