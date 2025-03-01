@@ -12,7 +12,6 @@ const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 const detect = require('./controllers/detect');
 
-
 const knex = require('knex')({
     client: 'pg',
     connection: {
