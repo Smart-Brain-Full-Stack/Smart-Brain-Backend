@@ -35,7 +35,7 @@ app.post("/detect-face",  (req, res) => {
 })
 
 app.get('/', (req,res) =>{
-    res.json("Connected");
+    res.send("Connected");
 })
 
 app.post('/signin' , (req,res)=> {
