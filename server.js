@@ -14,6 +14,9 @@ const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 const detect = require('./controllers/detect');
 
+app.use(express.json());
+app.use(cors());
+
 const knex = require('knex')({
     client: 'pg',
     connection: {
@@ -28,13 +31,7 @@ const knex = require('knex')({
     //   database: 'Smart-Brain',
     },
   });
-
-
-app.use(express.json());
-app.use(cors());
   
-
-
 app.post("/detect-face",  (req, res) => {
     detect.handleDetect(req,res);
 })
