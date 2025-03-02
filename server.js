@@ -6,6 +6,8 @@ const app = express();
 const port = process.env.PORT;
 const password = process.env.password;
 
+
+
 const signin = require('./controllers/signin');
 const register = require('./controllers/register');
 const profile = require('./controllers/profile');
@@ -15,11 +17,15 @@ const detect = require('./controllers/detect');
 const knex = require('knex')({
     client: 'pg',
     connection: {
-      host: '127.0.0.1',
-      port: 5432,
-      user: 'saizayarhein',
-      password: password,
-      database: 'Smart-Brain',
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    //   host: '127.0.0.1',
+    //   port: 5432,
+    //   user: 'saizayarhein',
+    //   password: password,
+    //   database: 'Smart-Brain',
     },
   });
 
