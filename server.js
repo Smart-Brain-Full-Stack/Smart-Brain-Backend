@@ -2,6 +2,7 @@ require('@dotenvx/dotenvx').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const port = process.env.PORT;
 
 const signinRoutes = require('./controllers/signin');
 const registerRoutes = require('./controllers/register');
@@ -27,7 +28,7 @@ app.use('/profile/:id', profileRoutes);
 
 app.use('/image' , imageRoutes);
 
-app.listen(process.env.PORT || 3000 , ()=>{
+app.listen(port || 3000 , ()=>{
     console.log("app is running on port " + port);
 })
 
