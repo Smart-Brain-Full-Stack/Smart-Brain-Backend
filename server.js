@@ -1,68 +1,42 @@
 require('@dotenvx/dotenvx').config();
 const express = require('express');
-const bcrypt = require('bcrypt');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT;
-const password = process.env.password;
 
-
-
-const signin = require('./controllers/signin');
-const register = require('./controllers/register');
-const profile = require('./controllers/profile');
-const image = require('./controllers/image');
-const detect = require('./controllers/detect');
+const signinRoutes = require('./controllers/signin');
+const registerRoutes = require('./controllers/register');
+const profileRoutes = require('./controllers/profile');
+const imageRoutes = require('./controllers/image');
+const detectRoutes = require('./controllers/detect');
 
 app.use(express.json());
 app.use(cors());
 
-const knex = require('knex')({
-    client: 'pg',
-    connection: {
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-            rejectUnauthorized: false
-        }
     //   host: '127.0.0.1',
     //   port: 5432,
     //   user: 'saizayarhein',
     //   password: password,
     //   database: 'Smart-Brain',
-    },
-  });
-  
-app.post("/detect-face",  (req, res) => {
-    detect.handleDetect(req,res);
-})
+
+app.use("/detect-face", detectRoutes)
 
 app.get('/', (req,res) =>{
     res.send("Connected");
 })
 
-app.post('/signin' , (req,res)=> {
-    signin.handleSignin(req,res,knex,bcrypt);
-})
+app.use('/signin',signinRoutes);
 
-app.post('/register',  (req, res) => {
-    register.handleRegister(req,res,knex,bcrypt);
-});
+app.use('/register', registerRoutes);
 
 //for future feature (not likely to happen tho lol)
-app.get('/profile/:id', (req,res) => {
-    profile.handleProfile(req,res,knex);
-})
+app.use('/profile/:id', profileRoutes);
 
-
-app.put('/image' , (req,res)=>{
-    image.handleImage(req,res,knex);
-})
+app.use('/image' , imageRoutes);
 
 app.listen(port || 3000 , ()=>{
     console.log("app is running on port " + port);
 })
-
-
 
 /*
 /--> res = this is working

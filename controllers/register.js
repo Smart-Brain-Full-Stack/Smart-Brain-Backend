@@ -1,4 +1,18 @@
-const handleRegister = async(req,res,knex,bcrypt) => {
+const {Router} = require('express');
+const router = Router();
+const bcrypt = require('bcrypt');
+
+const knex = require('knex')({
+    client: 'pg',
+    connection: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    },
+});
+
+router.post('/',async(req,res) => {
     const { name, email, password } = req.body;
 
     if(!name || !email || !password){
@@ -37,8 +51,6 @@ const handleRegister = async(req,res,knex,bcrypt) => {
             res.status(500).json('Transaction failed');
         }        
     })
-}
+})
 
-module.exports = {
-    handleRegister:handleRegister
-}
+module.exports = router;

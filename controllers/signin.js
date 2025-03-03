@@ -1,4 +1,18 @@
-const handleSignin = async(req,res,knex,bcrypt) => {
+const {Router} = require('express');
+const router = Router();
+const bcrypt = require('bcrypt');
+
+const knex = require('knex')({
+    client: 'pg',
+    connection: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    },
+});
+
+router.post('/',async(req,res) => {
     //email and password from frontend
     const {email , password} = req.body;
     
@@ -22,8 +36,6 @@ const handleSignin = async(req,res,knex,bcrypt) => {
         console.log(error);
         res.status(400).json('unable to get user');
     }
-}
+})
 
-module.exports = {
-    handleSignin : handleSignin
-}
+module.exports = router;
