@@ -1,4 +1,17 @@
-const handleImage = async(req,res,knex) => {
+const {Router} = require('express');
+const router = Router();
+
+const knex = require('knex')({
+    client: 'pg',
+    connection: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    },
+});
+
+router.put('/' ,async(req,res) => {
     const {id} = req.body;
     try {
         //get entries form users
@@ -13,11 +26,9 @@ const handleImage = async(req,res,knex) => {
         console.error(error);
         res.status(500).json('Error incrementing !!!');
     }
-}
+})
 
-module.exports = {
-    handleImage : handleImage
-}
+module.exports = router;
 
 
 

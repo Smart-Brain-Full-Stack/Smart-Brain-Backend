@@ -1,3 +1,5 @@
+const {Router} = require('express');
+const router = Router();
 
 //CLARIFAI API VERY IMPORTANT
 const returnClarifaiRequestOptions = function (img) {
@@ -40,7 +42,7 @@ const returnClarifaiRequestOptions = function (img) {
     return requestOptions;
 };
 
-const handleDetect = async(req,res) => {
+router.post('/',async(req,res) => {
     try {
         const  {imageUrl} = req.body;
 
@@ -57,8 +59,6 @@ const handleDetect = async(req,res) => {
     } catch (error) {
         res.status(500).json({ error: "Internal server error" });
     }
-}
+})
 
-module.exports = {
-    handleDetect : handleDetect
-}
+module.exports = router;

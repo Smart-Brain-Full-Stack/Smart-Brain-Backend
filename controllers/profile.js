@@ -1,4 +1,17 @@
-const handleProfile = async(req,res,knex) => {
+const {Router} = require('express');
+const router = Router();
+
+const knex = require('knex')({
+    client: 'pg',
+    connection: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    },
+});
+
+router.get('/' ,async(req,res) => {
     const {id} = req.params;
 
     try {
@@ -11,8 +24,6 @@ const handleProfile = async(req,res,knex) => {
     } catch (error) {
         res.status(400).json('error getting user');
     }
-}
+})
 
-module.exports = {
-    handleProfile : handleProfile
-}
+module.exports = router;
