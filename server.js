@@ -5,8 +5,6 @@ const app = express();
 const port = process.env.PORT;
 const password = process.env.password;
 
-
-
 const signinRoutes = require('./controllers/signin');
 const registerRoutes = require('./controllers/register');
 const profileRoutes = require('./controllers/profile');
