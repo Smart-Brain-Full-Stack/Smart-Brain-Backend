@@ -2,15 +2,7 @@ const {Router} = require('express');
 const router = Router();
 const bcrypt = require('bcrypt');
 
-const knex = require('knex')({
-    client: 'pg',
-    connection: {
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-            rejectUnauthorized: false
-        }
-    },
-});
+const knex = require('../knex/knex');
 
 router.post('/',async(req,res) => {
     //email and password from frontend

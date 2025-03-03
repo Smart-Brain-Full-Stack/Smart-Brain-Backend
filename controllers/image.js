@@ -1,15 +1,7 @@
 const {Router} = require('express');
 const router = Router();
 
-const knex = require('knex')({
-    client: 'pg',
-    connection: {
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-            rejectUnauthorized: false
-        }
-    },
-});
+const knex = require('../knex/knex');
 
 router.put('/' ,async(req,res) => {
     const {id} = req.body;

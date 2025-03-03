@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT;
-const password = process.env.password;
+
 
 const signinRoutes = require('./controllers/signin');
 const registerRoutes = require('./controllers/register');
@@ -13,12 +13,6 @@ const detectRoutes = require('./controllers/detect');
 
 app.use(express.json());
 app.use(cors());
-
-    //   host: '127.0.0.1',
-    //   port: 5432,
-    //   user: 'saizayarhein',
-    //   password: password,
-    //   database: 'Smart-Brain',
 
 app.use("/detect-face", detectRoutes)
 
