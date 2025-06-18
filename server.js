@@ -1,36 +1,23 @@
-require('@dotenvx/dotenvx').config();
-const express = require('express');
-const cors = require('cors');
+require("@dotenvx/dotenvx").config();
+const express = require("express");
+const cors = require("cors");
+const routes = require("./routes/routes");
+
 const app = express();
 const port = process.env.PORT;
-
-const signinRoutes = require('./controllers/signin');
-const registerRoutes = require('./controllers/register');
-const profileRoutes = require('./controllers/profile');
-const imageRoutes = require('./controllers/image');
-const detectRoutes = require('./controllers/detect');
 
 app.use(express.json());
 app.use(cors());
 
-app.use("/detect-face", detectRoutes)
+app.get("/", (req, res) => {
+  res.send("Connected");
+});
 
-app.get('/', (req,res) =>{
-    res.send("Connected");
-})
+app.use("/api", routes);
 
-app.use('/signin',signinRoutes);
-
-app.use('/register', registerRoutes);
-
-//for future feature (not likely to happen tho lol)
-app.use('/profile/:id', profileRoutes);
-
-app.use('/image' , imageRoutes);
-
-app.listen(port || 3000 , ()=>{
-    console.log("app is running on port " + port);
-})
+app.listen(port || 3000, () => {
+  console.log("app is running on port " + port);
+});
 
 /*
 /--> res = this is working
