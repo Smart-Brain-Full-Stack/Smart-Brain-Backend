@@ -12,13 +12,20 @@ services:
     volumes:
       - ./:/usr/src/Smart-Brain-Backend
       - /usr/src/Smart-Brain-Backend/node_modules
+    depends_on:
+      - postgres
 
   #postgres
   postgres:
+    image: postgres:latest
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-    build: ./postgres
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
