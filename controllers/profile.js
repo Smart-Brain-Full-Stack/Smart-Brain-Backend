@@ -1,4 +1,4 @@
-const knex = require("../knex/knex");
+const knex = require("../db/knex");
 
 const profile = async (req, res) => {
   const { id } = req.params;

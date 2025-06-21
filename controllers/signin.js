@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 
-const knex = require("../knex/knex");
+const knex = require("../db/knex");
 
 const signIn = async (req, res) => {
   //email and password from frontend

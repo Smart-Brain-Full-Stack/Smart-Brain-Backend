@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 
-const knex = require("../knex/knex");
+const knex = require("../db/knex");
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;

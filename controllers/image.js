@@ -1,4 +1,4 @@
-const knex = require("../knex/knex");
+const knex = require("../db/knex");
 
 const incrementEntries = async (req, res) => {
   const { id } = req.body;
