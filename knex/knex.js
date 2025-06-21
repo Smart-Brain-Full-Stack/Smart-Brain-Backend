@@ -13,13 +13,7 @@ const password = process.env.password;
 
 const knex = require("knex")({
   client: "pg",
-  connection: {
-    host: "127.0.0.1",
-    port: 5432,
-    user: "saizayarhein",
-    password: password,
-    database: "Smart-Brain",
-  },
+  connection: process.env.DATABASE_URL,
 });
 
 module.exports = knex;
