@@ -10,7 +10,7 @@ const router = Router();
 router.post("/signin", signIn);
 router.post("/register", register);
 router.post("/detect-face", detectFace);
-router.get("/profile/:id", profile);
+router.get("/profile/me", profile);
 router.put("/profile/:id", updateProfile);
 router.put("/image", incrementEntries);
 

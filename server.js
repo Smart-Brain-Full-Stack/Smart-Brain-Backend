@@ -3,13 +3,21 @@ const express = require("express");
 const cors = require("cors");
 const routes = require("./routes/routes");
 const morgan = require("morgan");
+const helmet = require("helmet");
 
 const app = express();
 const port = process.env.PORT;
 
 //app.use(morgan("combined"));
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONT_END_PORT,
+    credentials: true,
+  })
+);
+
+app.use(helmet());
 
 app.get("/", (req, res) => {
   res.send("Connected");
