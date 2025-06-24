@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 
 const knex = require("../db/knex");
+const { createSession } = require("../utils/session");
 
 const signIn = async (req, res) => {
   //email and password from frontend
@@ -18,7 +19,13 @@ const signIn = async (req, res) => {
     if (isValid) {
       //get user if password is correct
       const [user] = await knex("users").select("*").where({ email: email });
-      res.json(user);
+
+      const token = await createSession(user);
+
+      res.status(201).json({
+        status: "success",
+        data: { user, token },
+      });
     } else {
       //if the password is wrong
       res.status(400).json("Wrong credentials");
