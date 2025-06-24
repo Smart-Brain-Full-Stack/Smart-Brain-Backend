@@ -15,4 +15,29 @@ const profile = async (req, res) => {
   }
 };
 
-module.exports = profile;
+const updateProfile = async (req, res) => {
+  const { id } = req.params;
+  const { name, age } = req.body;
+
+  try {
+    const user = await knex("users")
+      .where({ id })
+      .update({ name, age })
+      .returning("*");
+
+    res.status(200).json({
+      status: "success",
+      data: { user },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: "Invalid data or user not found",
+    });
+  }
+};
+
+module.exports = {
+  profile,
+  updateProfile,
+};
