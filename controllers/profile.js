@@ -20,7 +20,7 @@ const updateProfile = async (req, res) => {
   const { name, age } = req.body;
 
   try {
-    const user = await knex("users")
+    const [user] = await knex("users")
       .where({ id })
       .update({ name, age })
       .returning("*");
