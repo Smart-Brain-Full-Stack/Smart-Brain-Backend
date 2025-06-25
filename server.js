@@ -4,12 +4,15 @@ const cors = require("cors");
 const routes = require("./routes/routes");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const port = process.env.PORT;
 
 //app.use(morgan("combined"));
 app.use(express.json());
+app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
+
 app.use(
   cors({
     origin: process.env.FRONT_END_PORT,

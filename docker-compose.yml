@@ -10,6 +10,7 @@ services:
       SECRET_KEY: ${SECRET_KEY}
       REDIS_URL: redis://redis:6379
       FRONT_END_PORT: ${FRONT_END_PORT}
+      COOKIE_SECRET_KEY: ${COOKIE_SECRET_KEY}
     ports:
       - "3000:3000"
     volumes:

@@ -22,9 +22,16 @@ const signIn = async (req, res) => {
 
       const token = await createSession(user);
 
+      res.cookie("jwt", token, {
+        signed: true,
+        httpOnly: true,
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      });
+
       res.status(201).json({
         status: "success",
-        data: { user, token },
+        data: { user },
       });
     } else {
       //if the password is wrong

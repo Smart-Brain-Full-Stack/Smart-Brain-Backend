@@ -1,17 +1,26 @@
 const knex = require("../db/knex");
 
 const profile = async (req, res) => {
-  const { id } = req.params;
+  const id = req.user_id;
 
   try {
-    const user = await knex.select("*").from("users").where({ id });
-    if (user.length) {
-      res.json(user[0]);
+    const [user] = await knex.select("*").from("users").where({ id });
+    if (user) {
+      res.status(200).json({
+        status: "success",
+        data: { user },
+      });
     } else {
-      res.status(400).json("not found!!!");
+      res.status(400).json({
+        status: "fail",
+        message: "not found",
+      });
     }
   } catch (error) {
-    res.status(400).json("error getting user");
+    res.status(400).json({
+      status: "fail",
+      message: "error getting user",
+    });
   }
 };
 

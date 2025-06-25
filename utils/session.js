@@ -11,7 +11,7 @@ const createSession = async (user) => {
   const { email, id } = user;
 
   const token = jwt.sign({ email }, process.env.SECRET_KEY, {
-    expiresIn: "2d",
+    expiresIn: "7d",
   });
 
   console.log(token);
@@ -23,4 +23,5 @@ const createSession = async (user) => {
 
 module.exports = {
   createSession,
+  client,
 };
