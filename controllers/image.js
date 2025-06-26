@@ -9,7 +9,10 @@ const incrementEntries = async (req, res) => {
       .increment("entries", 1) //increment by 1 every time we call it
       .returning("entries");
 
-    res.json(ent);
+    res.status(200).json({
+      status: "success",
+      data: { entries: ent.entries },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json("Error incrementing !!!");

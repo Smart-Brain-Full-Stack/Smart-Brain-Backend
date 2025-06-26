@@ -14,8 +14,6 @@ const createSession = async (user) => {
     expiresIn: "7d",
   });
 
-  console.log(token);
-
   await client.set(token, id);
 
   return token;
