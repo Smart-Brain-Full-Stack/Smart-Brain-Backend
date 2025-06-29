@@ -2,7 +2,7 @@ services:
   smart-brain-backend:
     container_name: Backend
     build: ./
-    command: npm run start:dev
+
     working_dir: /usr/src/Smart-Brain-Backend
     environment:
       DATABASE_URL: ${DATABASE_URL}
